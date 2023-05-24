@@ -9,7 +9,7 @@ export const ProjectFinderForm = () => {
 
     const dispatch = useAppDispatch();
 
-    const { error } = useAppSelector(state => state.project);
+    const { error, isLoading } = useAppSelector(state => state.project);
 
     const [projectId, setProjectId] = useState<string>("");
 
@@ -52,7 +52,7 @@ export const ProjectFinderForm = () => {
                     onChange={handleChangeProjectId}
                     onKeyUp={handleEnterPress}
                 />
-                <Button onClick={handleClickAdd}>Fetch</Button>
+                <Button disabled={isLoading} onClick={handleClickAdd}>Fetch</Button>
                 <Snackbar
                     isOpen={error.isError}
                     title={(

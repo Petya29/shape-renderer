@@ -6,6 +6,7 @@ import { InitResponse, ProjectResponse } from "./responses";
 interface ProjectState {
     project: Project,
     isLoading: boolean,
+    isFetched: boolean,
     error: {
         isError: boolean,
         msg: string
@@ -15,6 +16,7 @@ interface ProjectState {
 const initialState: ProjectState = {
     project: {} as Project,
     isLoading: false,
+    isFetched: false,
     error: {
         isError: false,
         msg: ""
@@ -62,9 +64,11 @@ export const projectSlice = createSlice({
         });
         builder.addCase(getProject.fulfilled, (state, action: PayloadAction<ProjectResponse>) => {
             state.project = action.payload.project
+            state.isFetched = true;
             state.isLoading = false;
         });
         builder.addMatcher(isAnyOf(init.pending, getProject.pending), (state) => {
+            state.isFetched = false;
             state.isLoading = true;
         });
         builder.addMatcher(isAnyOf(init.rejected, getProject.rejected), (state, action) => {
