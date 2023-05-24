@@ -17,3 +17,19 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+#root {
+  max-height: 100vh;
+  min-height: 100vh;
+  height: 100vh;
+  padding: 1rem;
+}
+
+main {
+  width: 100%;
+  height: 90%;
+}
+
+.cloth-wrapper {
+  flex: 0 1 100%;
+}
