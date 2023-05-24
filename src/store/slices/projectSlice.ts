@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { Project } from "../../models/entities";
+import { Project, isElement } from "../../models/entities";
 import { initAPI, projectAPI } from "../../services/ProjectService";
 import { ProjectResponse } from "./responses";
 
@@ -40,6 +40,12 @@ export const getProject = createAsyncThunk(
     async (id: string, { rejectWithValue }) => {
         try {
             const response = await projectAPI(id);
+            response.data.project.items.map(item => {
+                if (isElement(item)) {
+                    return
+                }
+                throw new Error();
+            })
             return response.data;
         } catch (e: any) {
             return rejectWithValue(e.response?.data || 'Unexpected error');
