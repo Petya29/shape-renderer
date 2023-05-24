@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Button, TextField } from "../ui/inputs";
+import { useAppDispatch } from "../../hooks/redux";
+import { getProject, init } from "../../store/slices/projectSlice";
 
 export const ProjectFinderForm = () => {
+
+    const dispatch = useAppDispatch();
 
     const [projectId, setProjectId] = useState<string>("");
 
@@ -14,7 +18,15 @@ export const ProjectFinderForm = () => {
     }
 
     const handleClickAdd = () => {
-
+        if (projectId.trim() === "") {
+            dispatch(init())
+                .unwrap()
+                .then(originalPromiseResponse => {
+                    dispatch(getProject(originalPromiseResponse.id));
+                });
+        } else {
+            dispatch(getProject(projectId));
+        }
     }
 
     return (
