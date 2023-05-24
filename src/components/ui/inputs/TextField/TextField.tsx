@@ -14,6 +14,7 @@ enum Sizes {
 }
 
 type TextFieldProps = {
+    readOnly?: boolean,
     name?: string,
     type?: HTMLInputTypeAttribute,
     label?: string,
@@ -26,6 +27,7 @@ type TextFieldProps = {
 } & HTMLAttributes<HTMLInputElement>
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(({
+    readOnly = false,
     name,
     type = "text",
     label,
@@ -45,6 +47,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(({
         <div style={styles}>
             <label className="relative">
                 <input
+                    readOnly={readOnly}
                     ref={ref}
                     type={type}
                     name={name}
