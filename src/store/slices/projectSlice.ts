@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { Project } from "../../models/entities";
 import { initAPI, projectAPI } from "../../services/ProjectService";
-import { InitResponse, ProjectResponse } from "./responses";
+import { ProjectResponse } from "./responses";
 
 interface ProjectState {
     project: Project,

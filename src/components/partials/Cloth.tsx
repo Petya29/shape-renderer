@@ -1,6 +1,7 @@
 import { useAppSelector } from "../../hooks/redux";
 import { Spinner } from "../ui/feedback";
 import { TextField } from "../ui/inputs";
+import { Shape } from "./Shape";
 
 export const Cloth = () => {
 
@@ -28,6 +29,9 @@ export const Cloth = () => {
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" className="cloth-wrapper" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox={`0 0 ${project.width} ${project.height}`}>
                 <rect fill="#efefef" width="100%" height="100%"></rect>
+                {project.items.map(item => (
+                  <Shape element={item} key={item.rotation + item.id} />
+                ))}
               </svg>
             </svg>
           </div>
