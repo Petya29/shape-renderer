@@ -28,7 +28,7 @@ export const init = createAsyncThunk(
             const response = await initAPI();
             return response.data;
         } catch (e: any) {
-            return rejectWithValue(e.response?.data?.errors || 'Unexpected error');
+            return rejectWithValue(e.response?.data || 'Unexpected error');
         }
     }
 );
@@ -40,7 +40,7 @@ export const getProject = createAsyncThunk(
             const response = await projectAPI(id);
             return response.data;
         } catch (e: any) {
-            return rejectWithValue(e.response?.data?.errors || 'Unexpected error');
+            return rejectWithValue(e.response?.data || 'Unexpected error');
         }
     }
 );
@@ -52,10 +52,12 @@ export const projectSlice = createSlice({
         setIsLoading(state, actions: PayloadAction<boolean>) {
             state.isLoading = actions.payload;
         },
+        setError(state, actions: PayloadAction<{ isError: boolean, msg: string }>) {
+            state.error = actions.payload;
+        }
     },
     extraReducers: (builder) => {
-        builder.addCase(init.fulfilled, (state, action: PayloadAction<InitResponse>) => {
-            console.log(action);
+        builder.addCase(init.fulfilled, (state) => {
             state.isLoading = false;
         });
         builder.addCase(getProject.fulfilled, (state, action: PayloadAction<ProjectResponse>) => {
@@ -66,7 +68,10 @@ export const projectSlice = createSlice({
             state.isLoading = true;
         });
         builder.addMatcher(isAnyOf(init.rejected, getProject.rejected), (state, action) => {
-            console.log(action);
+            state.error = {
+                isError: true,
+                msg: action?.payload?.message || "Unexpected error"
+            }
             state.isLoading = false;
         });
     },
@@ -74,5 +79,6 @@ export const projectSlice = createSlice({
 
 export default projectSlice.reducer;
 export const {
-    setIsLoading
+    setIsLoading,
+    setError
 } = projectSlice.actions;
